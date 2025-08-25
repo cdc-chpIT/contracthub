@@ -1,22 +1,33 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FiGrid, FiFileText, FiActivity, FiArchive, FiSettings } from 'react-icons/fi';
+import { FiGrid, FiFileText, FiActivity, FiArchive, FiSettings, FiTrendingUp } from 'react-icons/fi';
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Danh sách các mục menu mới, đã được Việt hóa và bổ sung
+  const menuItems = [
+    { to: '/', icon: FiGrid, text: 'Dashboard' },
+    { to: '/documents', icon: FiFileText, text: 'Hồ sơ Hợp đồng' },
+    { to: '/reports', icon: FiTrendingUp, text: 'Báo cáo' },
+    { to: '/activity', icon: FiActivity, text: 'Lịch sử Hoạt động' },
+  ];
+
   const getNavLinkClass = ({ isActive }) => {
-    // Luôn có justify-center để căn giữa nội dung
-    // Thêm 'gap-4' để tạo khoảng cách giữa icon và text khi mở rộng
-    let baseClasses = "flex items-center justify-center p-3 my-1 rounded-lg transition-colors duration-200 group gap-4";
+    let baseClasses = "flex items-center p-3 my-1 mx-2 rounded-lg transition-colors duration-200 group";
     
+    if (isExpanded) {
+      baseClasses += " justify-start gap-4";
+    } else {
+      baseClasses += " justify-center";
+    }
+
     if (isActive) {
       baseClasses += " bg-gray-100 text-blue-600";
     } else {
       baseClasses += " text-gray-600 hover:bg-gray-50 hover:text-blue-600";
     }
     
-    // Bỏ logic if (!isExpanded) vì đã đưa justify-center ra ngoài
     return baseClasses;
   };
 
@@ -26,53 +37,47 @@ const Sidebar = () => {
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      {/* Phần Logo - Đã được căn giữa chính xác */}
-      <div className="flex items-center justify-center p-4 border-b h-20">
-        <img 
-          src={process.env.PUBLIC_URL + '/images/logo.png'} 
-          alt="Company Logo" 
-          className="overflow-hidden transition-all duration-300 ease-in-out"
+      {/* Phần Logo và Tiêu đề */}
+      <div className="flex flex-col items-center justify-center p-4 border-b min-h-[8rem] transition-all duration-300">
+        <img
+          src={process.env.PUBLIC_URL + '/images/logo.png'}
+          alt="Company Logo"
+          className="transition-all duration-300"
           style={{ width: isExpanded ? '100px' : '40px' }}
         />
+        <div
+          className={`text-center overflow-hidden transition-all duration-300 ${
+            isExpanded ? 'max-h-12 mt-2 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <h1 className="text-xl font-bold text-gray-800">ContractHub</h1>
+          <p className="text-sm text-gray-500">Hệ thống quản lý hồ sơ</p>
+        </div>
       </div>
       
       {/* Phần Navigation */}
-      {/* Sử dụng padding bên trong nav để các item có thể căn giữa trên toàn bộ chiều rộng */}
-      <nav className="flex-grow pt-4 px-2">
+      <nav className="flex-grow pt-4">
         <ul>
-          <li>
-            <NavLink to="/" className={getNavLinkClass}>
-              <FiGrid size={24} className="transition-transform duration-200 group-hover:scale-110" />
-              {/* Bỏ ml-4 vì đã dùng 'gap-4' ở thẻ NavLink */}
-              {isExpanded && <span className="font-semibold">Dashboard</span>}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/documents" className={getNavLinkClass}>
-              <FiFileText size={24} className="transition-transform duration-200 group-hover:scale-110" />
-              {isExpanded && <span className="font-semibold">Documents</span>}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/activity" className={getNavLinkClass}>
-              <FiActivity size={24} className="transition-transform duration-200 group-hover:scale-110" />
-              {isExpanded && <span className="font-semibold">Activity</span>}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/archive" className={getNavLinkClass}>
-              <FiArchive size={24} className="transition-transform duration-200 group-hover:scale-110" />
-              {isExpanded && <span className="font-semibold">Archive</span>}
-            </NavLink>
-          </li>
+          {menuItems.map((item) => (
+            <li key={item.to}>
+              <NavLink to={item.to} className={getNavLinkClass}>
+                <item.icon size={24} className="transition-transform duration-200 group-hover:scale-110 flex-shrink-0" />
+                <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? "w-40" : "w-0"}`}>
+                  <span className="font-semibold whitespace-nowrap">{item.text}</span>
+                </div>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
 
-      {/* Phần Settings */}
-      <div className="p-2 border-t">
-         <NavLink to="/settings" className={getNavLinkClass}>
-          <FiSettings size={24} className="transition-transform duration-200 group-hover:scale-110" />
-          {isExpanded && <span className="font-semibold">Settings</span>}
+      {/* Phần Quản trị */}
+      <div className="border-t">
+         <NavLink to="/admin" className={getNavLinkClass}>
+          <FiSettings size={24} className="transition-transform duration-200 group-hover:scale-110 flex-shrink-0" />
+          <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? "w-32" : "w-0"}`}>
+            <span className="font-semibold whitespace-nowrap">Quản trị</span>
+          </div>
         </NavLink>
       </div>
     </aside>
