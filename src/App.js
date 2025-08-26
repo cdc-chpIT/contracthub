@@ -8,14 +8,14 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="flex bg-gray-50 min-h-screen">
-        <Sidebar 
-          isExpanded={isSidebarExpanded} 
-          setIsExpanded={setIsSidebarExpanded} 
+        <Sidebar
+          isExpanded={isSidebarExpanded}
+          setIsExpanded={setIsSidebarExpanded}
         />
-        
-        <main 
+
+        <main
           className={`flex-1 p-8 transition-[margin-left] duration-300 ease-in-out transform-gpu will-change-[margin-left] ${isSidebarExpanded ? 'ml-56' : 'ml-20'}`}
         >
           <Routes>
