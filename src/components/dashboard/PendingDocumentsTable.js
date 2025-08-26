@@ -1,27 +1,26 @@
 import React from 'react';
 
 const PendingDocumentsTable = () => {
-    // Dữ liệu mẫu
     const documents = [
-        { name: 'Application for leave', class: 'Proposal', dueDate: '12-Jan-2018', owner: 'Olumide Mich...' },
-        { name: 'Application for leave', class: 'Application', dueDate: '12-Jan-2018', owner: 'Segun Ori' },
-        { name: 'Application for leave', class: 'Application', dueDate: '12-Jan-2018', owner: 'Jola White' },
-        { name: 'Application for leave', class: 'Proposal', dueDate: '12-Jan-2018', owner: 'Unobong Mic...' },
+        { name: 'Đơn xin nghỉ', class: 'Chờ phê duyệt', startDate: '23/08/2025', dueDate: '01/09/2025', owner: 'Vũ Hồng Phúc' },
+        { name: 'Đơn xin làm online', class: 'Chờ phê duyệt', startDate: '23/08/2025', dueDate: '27/08/2025', owner: 'Trương Xuân Phương' },
+        { name: 'Đơn xin cấp dụng cụ', class: 'Chờ phê duyệt', startDate: '23/08/2025', dueDate: '28/08/2025', owner: 'Đặng Quang Thanh' },
     ];
 
     return (
         <div>
             <div className="flex justify-between items-center mb-4">
-                <h3 className="font-bold text-lg">Pending Documents</h3>
-                <a href="#" className="text-blue-600 text-sm">View All</a>
+                <h3 className="font-bold text-lg">Hồ sơ đang chờ duyệt</h3>
+                <a href="#" className="text-blue-600 text-sm">Xem tất cả</a>
             </div>
             <table className="w-full text-left">
                 <thead>
                     <tr className="text-gray-500 text-sm">
-                        <th className="py-2">File name</th>
-                        <th className="py-2">Class</th>
-                        <th className="py-2">Due Date</th>
-                        <th className="py-2">Owner</th>
+                        <th className="py-2">Tên File</th>
+                        <th className="py-2">Trạng thái</th>
+                        <th className="py-2">Ngày tạo file</th>
+                        <th className="py-2">Ngày hết hạn</th>
+                        <th className="py-2">Chủ sở hữu</th>
                         <th className="py-2"></th>
                     </tr>
                 </thead>
@@ -32,11 +31,10 @@ const PendingDocumentsTable = () => {
                             <td className="py-3">{doc.class}</td>
                             <td className="py-3">{doc.dueDate}</td>
                             <td className="py-3 flex items-center">
-                                {/* Bạn có thể thêm component Avatar ở đây */}
                                 <span className="ml-2">{doc.owner}</span>
                             </td>
                             <td className="py-3">
-                                <a href="#" className="text-blue-600 font-semibold">Review</a>
+                                <a href="#" className="text-blue-600 font-semibold">Chi tiết</a>
                             </td>
                         </tr>
                     ))}

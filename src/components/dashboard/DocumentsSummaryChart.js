@@ -37,7 +37,7 @@ const DocumentsSummaryChart = React.memo(() => {
 
     return (
         <div>
-            <h3 className="font-bold text-lg mb-2">Documents Summary</h3>
+            <h3 className="font-bold text-lg mb-2">Tổng quan hợp đồng</h3>
             <div style={{ width: '100%', height: 250 }}>
                 <ResponsiveContainer>
                     {/* Thêm isAnimationActive={false} để tắt hiệu ứng của biểu đồ */}
@@ -61,7 +61,7 @@ const DocumentsSummaryChart = React.memo(() => {
                             {data.reduce((total, item) => total + item.value, 0)}
                         </text>
                          <text x="50%" y="50%" dy={20} textAnchor="middle" className="text-sm text-gray-500">
-                            Total
+                            Hợp đồng
                         </text>
                     </PieChart>
                 </ResponsiveContainer>
