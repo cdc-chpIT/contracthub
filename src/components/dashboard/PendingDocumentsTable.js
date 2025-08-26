@@ -1,11 +1,12 @@
 import React from 'react';
 
 const PendingDocumentsTable = () => {
+    // Dữ liệu mẫu
     const documents = [
         { name: 'Application for leave', class: 'Proposal', dueDate: '12-Jan-2018', owner: 'Olumide Mich...' },
-        { name: 'Application for leave', class: 'Proposal', dueDate: '12-Jan-2018', owner: 'Olumide Mich...' },
-        { name: 'Application for leave', class: 'Proposal', dueDate: '12-Jan-2018', owner: 'Olumide Mich...' },
-        { name: 'Application for leave', class: 'Proposal', dueDate: '12-Jan-2018', owner: 'Olumide Mich...' },
+        { name: 'Application for leave', class: 'Application', dueDate: '12-Jan-2018', owner: 'Segun Ori' },
+        { name: 'Application for leave', class: 'Application', dueDate: '12-Jan-2018', owner: 'Jola White' },
+        { name: 'Application for leave', class: 'Proposal', dueDate: '12-Jan-2018', owner: 'Unobong Mic...' },
     ];
 
     return (
@@ -31,6 +32,7 @@ const PendingDocumentsTable = () => {
                             <td className="py-3">{doc.class}</td>
                             <td className="py-3">{doc.dueDate}</td>
                             <td className="py-3 flex items-center">
+                                {/* Bạn có thể thêm component Avatar ở đây */}
                                 <span className="ml-2">{doc.owner}</span>
                             </td>
                             <td className="py-3">

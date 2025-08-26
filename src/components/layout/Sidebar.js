@@ -1,84 +1,84 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FiGrid, FiFileText, FiActivity, FiArchive, FiSettings, FiTrendingUp } from 'react-icons/fi';
+import { FiGrid, FiFileText, FiActivity, FiArchive, FiSettings, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
-const Sidebar = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const Sidebar = ({ isExpanded, setIsExpanded }) => {
 
-  // Danh sách các mục menu mới, đã được Việt hóa và bổ sung
-  const menuItems = [
-    { to: '/', icon: FiGrid, text: 'Dashboard' },
-    { to: '/documents', icon: FiFileText, text: 'Hồ sơ Hợp đồng' },
-    { to: '/reports', icon: FiTrendingUp, text: 'Báo cáo' },
-    { to: '/activity', icon: FiActivity, text: 'Lịch sử Hoạt động' },
-  ];
+  const NavItem = ({ to, icon, children }) => {
+    const navLinkClass = ({ isActive }) =>
+      `flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 ${
+        isActive
+          ? "bg-indigo-100 text-indigo-600 font-bold"
+          : "text-gray-600 hover:bg-gray-100"
+      }`;
 
-  const getNavLinkClass = ({ isActive }) => {
-    let baseClasses = "flex items-center p-3 my-1 mx-2 rounded-lg transition-colors duration-200 group";
-    
-    if (isExpanded) {
-      baseClasses += " justify-start gap-4";
-    } else {
-      baseClasses += " justify-center";
-    }
-
-    if (isActive) {
-      baseClasses += " bg-gray-100 text-blue-600";
-    } else {
-      baseClasses += " text-gray-600 hover:bg-gray-50 hover:text-blue-600";
-    }
-    
-    return baseClasses;
+    return (
+      <li>
+        <NavLink to={to} className={navLinkClass}>
+          <div className={`flex items-center w-full ${!isExpanded && 'justify-center'}`}>
+            {icon}
+            {isExpanded && <span className="ml-4 whitespace-nowrap">{children}</span>}
+          </div>
+        </NavLink>
+      </li>
+    );
   };
 
   return (
     <aside
-      className={`bg-white shadow-lg h-screen flex flex-col relative transition-all duration-300 ease-in-out ${isExpanded ? 'w-64' : 'w-20'}`}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      className={`fixed top-0 left-0 z-30 bg-white shadow-lg h-screen flex flex-col transition-all duration-300 ease-in-out ${isExpanded ? 'w-56' : 'w-20'}`}
     >
-      {/* Phần Logo và Tiêu đề */}
-      <div className="flex flex-col items-center justify-center p-4 border-b min-h-[8rem] transition-all duration-300">
-        <img
-          src={process.env.PUBLIC_URL + '/images/logo.png'}
-          alt="Company Logo"
-          className="transition-all duration-300"
-          style={{ width: isExpanded ? '100px' : '40px' }}
-        />
-        <div
-          className={`text-center overflow-hidden transition-all duration-300 ${
-            isExpanded ? 'max-h-12 mt-2 opacity-100' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <h1 className="text-xl font-bold text-gray-800">ContractHub</h1>
-          <p className="text-sm text-gray-500">Hệ thống quản lý hồ sơ</p>
+      <button 
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="absolute top-8 -right-3 w-7 h-7 bg-white hover:bg-gray-100 border-2 border-gray-200 text-gray-500 rounded-full flex items-center justify-center transition-all"
+        aria-label="Toggle sidebar"
+      >
+        {isExpanded ? <FiChevronLeft size={16} /> : <FiChevronRight size={16} />}
+      </button>
+
+      <div className="pt-4 pb-2 border-b">
+        <div className="flex items-center justify-center">
+            <img 
+                src={process.env.PUBLIC_URL + '/images/logo.png'} 
+                alt="Company Logo" 
+                className="overflow-hidden transition-all duration-300 ease-in-out"
+                style={{ height: isExpanded ? '100px' : '70px' }}
+            />
+        </div>
+        <div 
+            className={`overflow-hidden transition-all duration-300 text-center ${isExpanded ? 'h-14 mt-2 delay-100' : 'h-0'}`}
+        > 
+            <h1 className="text-xl font-bold text-gray-800">ContractHub</h1>
+            <p className="text-sm text-gray-500">Hệ thống quản lý hồ sơ</p>
         </div>
       </div>
       
-      {/* Phần Navigation */}
-      <nav className="flex-grow pt-4">
+      <nav className="flex-grow pt-4 px-2">
         <ul>
-          {menuItems.map((item) => (
-            <li key={item.to}>
-              <NavLink to={item.to} className={getNavLinkClass}>
-                <item.icon size={24} className="transition-transform duration-200 group-hover:scale-110 flex-shrink-0" />
-                <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? "w-40" : "w-0"}`}>
-                  <span className="font-semibold whitespace-nowrap">{item.text}</span>
-                </div>
-              </NavLink>
-            </li>
-          ))}
+          <NavItem to="/" icon={<FiGrid size={24} />}>Dashboard</NavItem>
+          <NavItem to="/documents" icon={<FiFileText size={24} />}>Hợp đồng</NavItem>
+          <NavItem to="/activity" icon={<FiActivity size={24} />}>Hoạt động</NavItem>
+          <NavItem to="/archive" icon={<FiArchive size={24} />}>Lưu trữ</NavItem>
         </ul>
       </nav>
 
-      {/* Phần Quản trị */}
-      <div className="border-t">
-         <NavLink to="/admin" className={getNavLinkClass}>
-          <FiSettings size={24} className="transition-transform duration-200 group-hover:scale-110 flex-shrink-0" />
-          <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? "w-32" : "w-0"}`}>
-            <span className="font-semibold whitespace-nowrap">Quản trị</span>
-          </div>
-        </NavLink>
+      <div className="p-2 border-t">
+        <div className={`flex p-3 items-center rounded-lg ${isExpanded ? 'justify-start' : 'justify-center'}`}>
+            <img 
+                src="https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png"
+                alt="User Avatar"
+                className="w-10 h-10 rounded-full flex-shrink-0"
+            />
+            <div 
+                className={`overflow-hidden whitespace-nowrap transition-all duration-300 delay-100 ${isExpanded ? 'w-full ml-3 opacity-100' : 'w-0 ml-0 opacity-0'}`}
+            >
+                <p className="font-bold text-sm">ADMIN</p>
+                <p className="text-xs text-gray-500">Quản trị viên</p>
+            </div>
+        </div>
+        <ul>
+          <NavItem to="/settings" icon={<FiSettings size={24} />}>Cài đặt</NavItem>
+        </ul>
       </div>
     </aside>
   );
