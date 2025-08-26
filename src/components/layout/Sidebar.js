@@ -17,7 +17,7 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
         <NavLink to={to} className={navLinkClass}>
           <div className={`flex items-center w-full ${!isExpanded && 'justify-center'}`}>
             {icon}
-            {isExpanded && <span className="ml-4 whitespace-nowrap">{children}</span>}
+            <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 delay-500 ${isExpanded ? 'ml-4 opacity-100' : 'ml-0 w-0 opacity-0'}`}>{children}</span>
           </div>
         </NavLink>
       </li>
@@ -28,7 +28,7 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
     <aside
       className={`fixed top-0 left-0 z-30 bg-white shadow-lg h-screen flex flex-col transition-all duration-300 ease-in-out ${isExpanded ? 'w-56' : 'w-20'}`}
     >
-      <button 
+      <button
         onClick={() => setIsExpanded(!isExpanded)}
         className="absolute top-8 -right-3 w-7 h-7 bg-white hover:bg-gray-100 border-2 border-gray-200 text-gray-500 rounded-full flex items-center justify-center transition-all"
         aria-label="Toggle sidebar"
@@ -38,21 +38,21 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
 
       <div className="pt-4 pb-2 border-b">
         <div className="flex items-center justify-center">
-            <img 
-                src={process.env.PUBLIC_URL + '/images/logo.png'} 
-                alt="Company Logo" 
+            <img
+                src={process.env.PUBLIC_URL + '/images/logo.png'}
+                alt="Company Logo"
                 className="overflow-hidden transition-all duration-300 ease-in-out"
                 style={{ height: isExpanded ? '100px' : '70px' }}
             />
         </div>
-        <div 
-            className={`overflow-hidden transition-all duration-300 text-center ${isExpanded ? 'h-14 mt-2 delay-100' : 'h-0'}`}
-        > 
+        <div
+            className={`overflow-hidden transition-all duration-300 text-center ${isExpanded ? 'h-14 mt-2 opacity-100' : 'h-0 opacity-0'}`}
+        >
             <h1 className="text-xl font-bold text-gray-800">ContractHub</h1>
             <p className="text-sm text-gray-500">Hệ thống quản lý hồ sơ</p>
         </div>
       </div>
-      
+
       <nav className="flex-grow pt-4 px-2">
         <ul>
           <NavItem to="/" icon={<FiGrid size={24} />}>Dashboard</NavItem>
@@ -64,13 +64,13 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
 
       <div className="p-2 border-t">
         <div className={`flex p-3 items-center rounded-lg ${isExpanded ? 'justify-start' : 'justify-center'}`}>
-            <img 
+            <img
                 src="https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png"
                 alt="User Avatar"
                 className="w-10 h-10 rounded-full flex-shrink-0"
             />
-            <div 
-                className={`overflow-hidden whitespace-nowrap transition-all duration-300 delay-100 ${isExpanded ? 'w-full ml-3 opacity-100' : 'w-0 ml-0 opacity-0'}`}
+            <div
+                className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${isExpanded ? 'w-full ml-3 opacity-100' : 'w-0 ml-0 opacity-0'}`}
             >
                 <p className="font-bold text-sm">ADMIN</p>
                 <p className="text-xs text-gray-500">Quản trị viên</p>
