@@ -7,6 +7,17 @@ const PendingDocumentsTable = () => {
         { name: 'Đơn xin cấp dụng cụ', class: 'Chờ phê duyệt', startDate: '23/08/2025', dueDate: '28/08/2025', owner: 'Đặng Quang Thanh' },
     ];
 
+    const getStatusBadge = (status) => {
+        const statusMap = {
+          'Chờ phê duyệt': 'bg-yellow-100 text-yellow-800',
+        };
+        return (
+            <span className={`px-2 py-1 text-xs font-semibold rounded-full whitespace-nowrap ${statusMap[status] || 'bg-gray-100 text-gray-800'}`}>
+                {status}
+            </span>
+        );
+    };
+
     return (
         <div>
             <div className="flex justify-between items-center mb-4">
@@ -17,8 +28,7 @@ const PendingDocumentsTable = () => {
                 <thead>
                     <tr className="text-gray-500 text-sm">
                         <th className="py-2">Tên File</th>
-                        <th className="py-2">Trạng thái</th>
-                        <th className="py-2">Ngày tạo file</th>
+                        <th className="py-2">Trạng thái</th> 
                         <th className="py-2">Ngày hết hạn</th>
                         <th className="py-2">Chủ sở hữu</th>
                         <th className="py-2"></th>
@@ -28,7 +38,7 @@ const PendingDocumentsTable = () => {
                     {documents.map((doc, index) => (
                         <tr key={index} className="border-b">
                             <td className="py-3">{doc.name}</td>
-                            <td className="py-3">{doc.class}</td>
+                            <td className="py-3">{getStatusBadge(doc.class)}</td>
                             <td className="py-3">{doc.dueDate}</td>
                             <td className="py-3 flex items-center">
                                 <span className="ml-2">{doc.owner}</span>

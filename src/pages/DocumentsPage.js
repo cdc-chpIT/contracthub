@@ -75,7 +75,7 @@ const DocumentsPage = () => {
                 ))}
             </div>
             
-            <DocumentsTable title="Hợp đồng mới nhất" documents={filteredDocuments} />
+            <DocumentsTable title="Hồ sơ mới nhất" documents={filteredDocuments} />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <DocumentsTable title="Hồ sơ chờ phê duyệt" documents={pendingApprovalDocs} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiFileText } from 'react-icons/fi';
+import { FiFileText, FiUser } from 'react-icons/fi'; // Thêm icon FiUser
 import { Link } from 'react-router-dom';
 
 const RecentDocuments = () => {
@@ -37,23 +37,21 @@ const RecentDocuments = () => {
                 {documents.map((doc) => (
                     <li key={doc.id}>
                         <Link to={`/documents/${doc.id}`} className="block py-3 border-b last:border-b-0 hover:bg-gray-50 rounded-md -mx-2 px-2">
-                            <div className="flex justify-between items-start">
-                                <div className="flex items-start">
-                                    <div className="p-2 bg-gray-100 rounded-lg mr-4">
-                                        <FiFileText className="text-gray-600" />
-                                    </div>
-                                    <div>
-                                        <p className="font-semibold text-gray-700 leading-tight">{doc.name}</p>
-                                        <div className="flex items-center text-xs text-gray-500 mt-1">
-                                            <span>{doc.date}</span>
-                                            <span className="mx-2">|</span>
-                                            <span className="text-red-600">{doc.expiryDate}</span>
-                                        </div>
-                                    </div>
+                            <div className="flex items-start">
+                                <div className="p-2 bg-gray-100 rounded-lg mr-4">
+                                    <FiFileText className="text-gray-600" />
                                 </div>
-                                <div className="text-right flex-shrink-0 ml-4">
-                                    <p className="text-xs text-gray-400">Owner</p>
-                                    <p className="font-semibold text-sm text-gray-700">{doc.owner}</p>
+                                <div className="flex-1 min-w-0">
+                                    <p className="font-semibold text-gray-700 leading-tight truncate">{doc.name}</p>
+                                    <div className="flex items-center text-xs text-gray-500 mt-1">
+                                       <FiUser className="mr-1" /> 
+                                       <span>{doc.owner}</span>
+                                    </div>
+                                    <div className="flex items-center text-xs text-gray-500 mt-1 whitespace-nowrap">
+                                        <span>{doc.date}</span>
+                                        <span className="mx-2">|</span>
+                                        <span className="text-red-600">{doc.expiryDate}</span>
+                                    </div>
                                 </div>
                             </div>
                         </Link>

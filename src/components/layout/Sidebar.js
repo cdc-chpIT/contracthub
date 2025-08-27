@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FiGrid, FiFileText, FiActivity, FiArchive, FiSettings, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiGrid, FiFileText, FiActivity, FiArchive, FiSettings, FiChevronLeft, FiChevronRight, FiBox } from 'react-icons/fi';
 
 const Sidebar = ({ isExpanded, setIsExpanded }) => {
 
@@ -56,7 +56,8 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
       <nav className="flex-grow pt-4 px-2">
         <ul>
           <NavItem to="/" icon={<FiGrid size={24} />}>Dashboard</NavItem>
-          <NavItem to="/documents" icon={<FiFileText size={24} />}>Hợp đồng</NavItem>
+          <NavItem to="/projects" icon={<FiBox size={24} />}>Dự án</NavItem>
+          <NavItem to="/documents" icon={<FiFileText size={24} />}>Hồ sơ</NavItem>
           <NavItem to="/activity" icon={<FiActivity size={24} />}>Hoạt động</NavItem>
           <NavItem to="/archive" icon={<FiArchive size={24} />}>Lưu trữ</NavItem>
         </ul>

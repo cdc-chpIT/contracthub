@@ -36,7 +36,7 @@ const DocumentsTable = ({ title, documents }) => { // Thêm prop "title"
                             <th className="py-3 px-2">Ngày bắt đầu</th>
                             <th className="py-3 px-2">Ngày hết hạn</th>
                             <th className="py-3 px-2">Người phụ trách</th>
-                            <th className="py-3 px-2">Trạng thái</th>
+                            <th className="py-3 px-2 w-48">Trạng thái</th> {/* Tăng độ rộng cột trạng thái */}
                             <th className="py-3 px-2"></th>
                         </tr>
                     </thead>

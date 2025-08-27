@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/layout/Sidebar';
 import DashboardPage from './pages/DashboardPage';
 import DocumentsPage from './pages/DocumentsPage';
+import ProjectsPage from './pages/ProjectsPage';
+import ActivityPage from './pages/ActivityPage'; 
+import ArchivePage from './pages/ArchivePage';   
 
 function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
@@ -21,6 +24,9 @@ function App() {
           <Routes>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/documents" element={<DocumentsPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/activity" element={<ActivityPage />} />
+            <Route path="/archive" element={<ArchivePage />} />   
             {/* Thêm các route khác ở đây nếu cần */}
           </Routes>
         </main>
