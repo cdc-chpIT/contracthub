@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/contracthub/static/css/main.cea71f8a.css",
-    "main.js": "/contracthub/static/js/main.f0d53da3.js",
+    "main.css": "/contracthub/static/css/main.fd9a1c56.css",
+    "main.js": "/contracthub/static/js/main.a8e42066.js",
     "static/js/453.c6a689b4.chunk.js": "/contracthub/static/js/453.c6a689b4.chunk.js",
     "index.html": "/contracthub/index.html",
-    "main.cea71f8a.css.map": "/contracthub/static/css/main.cea71f8a.css.map",
-    "main.f0d53da3.js.map": "/contracthub/static/js/main.f0d53da3.js.map",
+    "main.fd9a1c56.css.map": "/contracthub/static/css/main.fd9a1c56.css.map",
+    "main.a8e42066.js.map": "/contracthub/static/js/main.a8e42066.js.map",
     "453.c6a689b4.chunk.js.map": "/contracthub/static/js/453.c6a689b4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cea71f8a.css",
-    "static/js/main.f0d53da3.js"
+    "static/css/main.fd9a1c56.css",
+    "static/js/main.a8e42066.js"
   ]
 }
