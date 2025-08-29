@@ -1,84 +1,52 @@
 import React, { useState, useMemo } from 'react';
-import { FiBox, FiClock, FiCheckSquare, FiPauseCircle, FiThumbsUp, FiChevronRight, FiPlus, FiUser, FiFileText, FiCalendar, FiXCircle, FiCheckCircle } from 'react-icons/fi';
+import { FiBox, FiClock, FiCheckSquare, FiPauseCircle, FiThumbsUp, FiChevronRight, FiPlus } from 'react-icons/fi';
 import StatusCard from '../components/documents/StatusCard';
 import Modal from '../components/common/Modal';
 import ProjectTree from '../components/projects/ProjectTree';
+import ConfirmationModal from '../components/common/ConfirmationModal';
+import AddPhaseForm from '../components/projects/AddPhaseForm';
 
-// --- Dữ liệu mẫu cho các dự án ---
+// --- Dữ liệu mẫu cho các dự án (đã cập nhật ngày tháng cho giai đoạn) ---
 const allProjects = [
     { 
         id: 'P-001', 
         name: 'Dự án Cầu Vượt Sông Hồng', 
         status: 'Đang triển khai', 
+        startDate: '01-06-2025',
         documentCount: 5, 
         manager: 'Vũ Hồng Phúc', 
         category: 'Đấu thầu xây dựng', 
         investmentCost: '1,200,000,000',
         phases: [
-            { id: 'P001-1', name: 'Giai đoạn 1: Khảo sát địa chất', status: 'Hoàn thành', details: 'Thu thập dữ liệu, phân tích mẫu đất, và lập báo cáo khảo sát.', responsiblePerson: 'Nguyễn Văn A', files: ['Báo cáo khảo sát địa chất.pdf', 'Kết quả thí nghiệm đất.xlsx'] },
-            { id: 'P001-2', name: 'Giai đoạn 2: Thiết kế kỹ thuật', status: 'Hoàn thành', details: 'Hoàn thành bản vẽ chi tiết và thông số kỹ thuật cho dự án.', responsiblePerson: 'Trần Thị B', files: ['Bản vẽ cầu.dwg', 'Thuyết minh thiết kế.docx'] },
-            { id: 'P001-3', name: 'Giai đoạn 3: Thi công móng cọc', status: 'Đang triển khai', details: 'Đang tiến hành ép cọc và xây dựng nền móng.', responsiblePerson: 'Lê Văn C', files: ['Nhật ký thi công cọc.pdf'] },
-            { id: 'P001-4', name: 'Giai đoạn 4: Xây dựng thân cầu', status: 'Chưa bắt đầu', details: 'Dự kiến bắt đầu vào tháng 10/2025.', responsiblePerson: 'Phạm Thị D', files: [] },
+            { id: 'P001-1', name: 'Giai đoạn 1: Khảo sát địa chất', status: 'Hoàn thành', startDate: '01-06-2025', endDate: '30-06-2025', details: 'Thu thập dữ liệu, phân tích mẫu đất, và lập báo cáo khảo sát.', responsiblePerson: 'Nguyễn Văn A', files: ['Báo cáo khảo sát địa chất.pdf', 'Kết quả thí nghiệm đất.xlsx'] },
+            { id: 'P001-2', name: 'Giai đoạn 2: Thiết kế kỹ thuật', status: 'Hoàn thành', startDate: '01-07-2025', endDate: '31-08-2025', details: 'Hoàn thành bản vẽ chi tiết và thông số kỹ thuật cho dự án.', responsiblePerson: 'Trần Thị B', files: ['Bản vẽ cầu.dwg', 'Thuyết minh thiết kế.docx'] },
+            { id: 'P001-3', name: 'Giai đoạn 3: Thi công móng cọc', status: 'Đang triển khai', startDate: '01-09-2025', endDate: '30-11-2025', details: 'Đang tiến hành ép cọc và xây dựng nền móng.', responsiblePerson: 'Lê Văn C', files: ['Nhật ký thi công cọc.pdf'] },
+            { id: 'P001-4', name: 'Giai đoạn 4: Xây dựng thân cầu', status: 'Chưa bắt đầu', startDate: '01-12-2025', endDate: '30-05-2026', details: 'Dự kiến bắt đầu vào tháng 10/2025.', responsiblePerson: 'Phạm Thị D', files: [] },
         ]
     },
     { 
         id: 'P-002', 
         name: 'Thiết kế Cao tốc Bắc Nam', 
         status: 'Hoàn thành', 
+        startDate: '15-05-2025',
         documentCount: 12, 
         manager: 'Trương Xuân Phương', 
         category: 'Tư vấn thiết kế', 
         investmentCost: '850,000,000',
         phases: [
-            { id: 'P002-1', name: 'Giai đoạn 1: Lập kế hoạch', status: 'Hoàn thành', details: 'Xác định phạm vi và yêu cầu thiết kế.', responsiblePerson: 'Nguyễn Thị E', files: ['Kế hoạch tổng thể.pdf'] },
-            { id: 'P002-2', name: 'Giai đoạn 2: Thiết kế cơ sở', status: 'Hoàn thành', details: 'Hoàn thành các bản vẽ và tài liệu thiết kế cơ sở.', responsiblePerson: 'Trần Văn G', files: ['Bản vẽ thiết kế cơ sở.dwg', 'Hồ sơ pháp lý.pdf'] },
-            { id: 'P002-3', name: 'Giai đoạn 3: Bàn giao', status: 'Hoàn thành', details: 'Bàn giao toàn bộ hồ sơ thiết kế cho chủ đầu tư.', responsiblePerson: 'Lê Thị H', files: ['Biên bản bàn giao.pdf'] },
+            { id: 'P002-1', name: 'Giai đoạn 1: Lập kế hoạch', status: 'Hoàn thành', startDate: '15-05-2025', endDate: '14-06-2025', details: 'Xác định phạm vi và yêu cầu thiết kế.', responsiblePerson: 'Nguyễn Thị E', files: ['Kế hoạch tổng thể.pdf'] },
+            { id: 'P002-2', name: 'Giai đoạn 2: Thiết kế cơ sở', status: 'Hoàn thành', startDate: '15-06-2025', endDate: '15-09-2025', details: 'Hoàn thành các bản vẽ và tài liệu thiết kế cơ sở.', responsiblePerson: 'Trần Văn G', files: ['Bản vẽ thiết kế cơ sở.dwg', 'Hồ sơ pháp lý.pdf'] },
+            { id: 'P002-3', name: 'Giai đoạn 3: Bàn giao', status: 'Hoàn thành', startDate: '16-09-2025', endDate: '30-09-2025', details: 'Bàn giao toàn bộ hồ sơ thiết kế cho chủ đầu tư.', responsiblePerson: 'Lê Thị H', files: ['Biên bản bàn giao.pdf'] },
         ]
     },
-    { id: 'P-003', name: 'Cung cấp vật tư Quý 3', status: 'Hoàn thành', documentCount: 8, manager: 'Đặng Quang Thanh', category: 'Cung cấp vật tư', investmentCost: '300,000,000', phases: [] },
-    { id: 'P-004', name: 'Tư vấn giám sát công trình', status: 'Chờ phê duyệt', documentCount: 2, manager: 'Vũ Hồng Phúc', category: 'Tư vấn giám sát', investmentCost: '150,000,000', phases: [] },
-    { id: 'P-005', name: 'Bảo trì hệ thống điện', status: 'Tạm dừng', documentCount: 3, manager: 'Trương Xuân Phương', category: 'Bảo trì', investmentCost: '50,000,000', phases: [] },
-    { id: 'P-006', name: 'Nâng cấp nhà máy xử lý nước', status: 'Đang triển khai', documentCount: 7, manager: 'Đặng Quang Thanh', category: 'Đấu thầu xây dựng', investmentCost: '2,500,000,000', phases: [] },
+    { id: 'P-003', name: 'Cung cấp vật tư Quý 3', status: 'Hoàn thành', startDate: '01-07-2025', documentCount: 8, manager: 'Đặng Quang Thanh', category: 'Cung cấp vật tư', investmentCost: '300,000,000', phases: [] },
+    { id: 'P-004', name: 'Tư vấn giám sát công trình', status: 'Chờ phê duyệt', startDate: '20-08-2025', documentCount: 2, manager: 'Vũ Hồng Phúc', category: 'Tư vấn giám sát', investmentCost: '150,000,000', phases: [] },
+    { id: 'P-005', name: 'Bảo trì hệ thống điện', status: 'Tạm dừng', startDate: '10-08-2025', documentCount: 3, manager: 'Trương Xuân Phương', category: 'Bảo trì', investmentCost: '50,000,000', phases: [] },
+    { id: 'P-006', name: 'Nâng cấp nhà máy xử lý nước', status: 'Đang triển khai', startDate: '01-09-2025', documentCount: 7, manager: 'Đặng Quang Thanh', category: 'Đấu thầu xây dựng', investmentCost: '2,500,000,000', phases: [] },
 ];
 
-const PhaseDetailsModal = ({ isOpen, onClose, phase }) => {
-    if (!phase) return null;
-  
-    const isCompleted = phase.status === 'Hoàn thành';
-  
-    return (
-      <Modal isOpen={isOpen} onClose={onClose} title={`Chi tiết: ${phase.name}`} maxWidth="lg">
-        <div className="space-y-4 text-gray-700">
-          <div>
-            <h3 className="font-bold text-lg mb-2">Thông tin chung</h3>
-            <p className="flex items-center mb-1"><FiUser className="mr-2 text-indigo-500" /><span className="font-semibold">Người phụ trách:</span>&nbsp;{phase.responsiblePerson}</p>
-            <p className="flex items-center mb-1">
-              {isCompleted ? <FiCheckCircle className="mr-2 text-green-500" /> : <FiClock className="mr-2 text-blue-500" />}
-              <span className="font-semibold">Trạng thái:</span>&nbsp;{phase.status}
-            </p>
-            <p className="flex items-start mb-1"><FiCalendar className="mr-2 text-gray-500 mt-1" /><span className="font-semibold">Mô tả:</span>&nbsp;{phase.details}</p>
-          </div>
-  
-          {phase.files && phase.files.length > 0 && (
-            <div>
-              <h3 className="font-bold text-lg mb-2 mt-4">Tài liệu liên quan</h3>
-              <ul className="list-disc list-inside space-y-1">
-                {phase.files.map((file, index) => (
-                  <li key={index} className="flex items-center"><FiFileText className="mr-2 text-purple-500" /><span>{file}</span></li>
-                ))}
-              </ul>
-            </div>
-          )}
-  
-          {(!phase.files || phase.files.length === 0) && (
-            <div className="text-center py-4 text-gray-500 italic"><FiXCircle className="inline-block mr-2" />Không có tài liệu nào.</div>
-          )}
-        </div>
-      </Modal>
-    );
-};
-
 const ProjectsTable = ({ title, projects, onRowClick }) => {
+    // ... (rest of the component is unchanged)
     const getStatusBadge = (status) => {
         const statusMap = {
           'Đang triển khai': 'bg-blue-100 text-blue-800',
@@ -150,7 +118,10 @@ const ProjectsTable = ({ title, projects, onRowClick }) => {
 const ProjectsPage = () => {
     const [activeFilter, setActiveFilter] = useState('Tất cả');
     const [selectedProjectForTree, setSelectedProjectForTree] = useState(null);
-    const [selectedPhaseForDetails, setSelectedPhaseForDetails] = useState(null);
+    const [projectForPhaseAddition, setProjectForPhaseAddition] = useState(null);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+    const [isAddPhaseModalOpen, setIsAddPhaseModalOpen] = useState(false);
+
 
     const statusList = useMemo(() => [
         { title: 'Tất cả', icon: <FiBox size={20}/>, color: 'gray', count: allProjects.length },
@@ -171,14 +142,21 @@ const ProjectsPage = () => {
         if (project.phases && project.phases.length > 0) {
             setSelectedProjectForTree(project);
         } else {
-            alert(`Dự án "${project.name}" chưa có thông tin giai đoạn.`);
+            setProjectForPhaseAddition(project);
+            setIsConfirmationModalOpen(true);
         }
     };
-
-    const handlePhaseClick = (phase) => {
-        setSelectedPhaseForDetails(phase);
-    };
     
+    const handleConfirmAddPhase = () => {
+        setIsConfirmationModalOpen(false);
+        setIsAddPhaseModalOpen(true);
+    };
+
+    const handleCloseAddPhase = () => {
+        setIsAddPhaseModalOpen(false);
+        setProjectForPhaseAddition(null);
+    };
+
     const inProgressProjects = allProjects.filter(p => p.status === 'Đang triển khai');
     const completedProjects = allProjects.filter(p => p.status === 'Hoàn thành');
     const pendingProjects = allProjects.filter(p => p.status === 'Chờ phê duyệt');
@@ -229,16 +207,29 @@ const ProjectsPage = () => {
                 {selectedProjectForTree && (
                     <ProjectTree 
                         project={selectedProjectForTree}
-                        onPhaseClick={handlePhaseClick} 
                     />
                 )}
             </Modal>
-            
-            <PhaseDetailsModal
-                isOpen={!!selectedPhaseForDetails}
-                onClose={() => setSelectedPhaseForDetails(null)}
-                phase={selectedPhaseForDetails}
-            />
+
+            <ConfirmationModal
+                isOpen={isConfirmationModalOpen}
+                onClose={() => setIsConfirmationModalOpen(false)}
+                onConfirm={handleConfirmAddPhase}
+                title="Dự án chưa có giai đoạn"
+            >
+                Dự án "{projectForPhaseAddition?.name}" hiện chưa có thông tin giai đoạn. Bạn có muốn thêm mới không?
+            </ConfirmationModal>
+
+            <Modal
+                isOpen={isAddPhaseModalOpen}
+                onClose={handleCloseAddPhase}
+                title="Thêm giai đoạn mới"
+                maxWidth="4xl"
+            >
+                {projectForPhaseAddition && (
+                    <AddPhaseForm project={projectForPhaseAddition} onClose={handleCloseAddPhase} />
+                )}
+            </Modal>
         </div>
     );
 };
