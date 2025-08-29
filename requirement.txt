@@ -1,0 +1,2 @@
+npm install @reduxjs/toolkit @testing-library/dom @testing-library/jest-dom @testing-library/react @testing-library/user-event axios clsx react react-dom react-hook-form react-icons react-redux react-router-dom react-scripts recharts styled-components web-vitals
+npm install --save-dev autoprefixer gh-pages postcss tailwindcss
